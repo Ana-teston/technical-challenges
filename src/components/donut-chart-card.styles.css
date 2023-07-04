@@ -31,19 +31,24 @@
     width: 24px;
     height: 24px;
     margin: 10px;
-    align-items: flex-end;
-    cursor: pointer;
-    justify-content: center;
-    background-color: white;
-    border-radius: 50%;
 }
 
 .menu-icon {
     font-size: 18px;
     line-height: 1;
+    background-color: white;
+    border: 1px solid lightgray;
+    padding: 2px;
+    border-radius: 4px;
 }
 
 .apexcharts-legend-text {
     width: 50px !important;
     display: block;
+}
+
+button {
+    background-color: white;
+    border: none;
+
 }
