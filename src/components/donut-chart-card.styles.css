@@ -1,0 +1,49 @@
+.container {
+    display: flex;
+    flex-wrap: wrap; /* Add this line to allow wrapping of chart cards */
+    justify-content: center; /* Change to center to horizontally center the chart cards */
+}
+
+.chart-card {
+    display: flex;
+    width: 500px; /* Set the chart container width to 100% to fill the available space */
+    height: 400px;
+    border: solid 1px lightgray;
+    margin: 0 10px 20px; /* Adjust the margin to create space between chart cards */
+    flex: 0 0 300px; /* Set a fixed width for each chart card */
+}
+
+.chart-container {
+    width: 400px;
+    height: 400px;
+    align-items: flex-start;
+    align-self: flex-start;
+    justify-content: flex-start;
+    margin-top: 100px;
+}
+
+.chart-title {
+    margin: 10px;
+    justify-content: flex-start;
+}
+
+.menu-button-container {
+    width: 24px;
+    height: 24px;
+    margin: 10px;
+    align-items: flex-end;
+    cursor: pointer;
+    justify-content: center;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.menu-icon {
+    font-size: 18px;
+    line-height: 1;
+}
+
+.apexcharts-legend-text {
+    width: 50px !important;
+    display: block;
+}

@@ -1,17 +1,12 @@
 import React, { useEffect, useState, useRef } from 'react';
 import ApexCharts from 'apexcharts';
-import {
-    Container,
-    ChartCard,
-    ChartContainer,
-    ChartTitle,
-    MenuButtonContainer,
-    MenuIcon,
-} from './donut-chart-card.styles';
+import './donut-chart-card.styles.css';
 
 const DonutChartCard = () => {
     const [chartData, setChartData] = useState(null);
-    const chartRefs = useRef([]);
+    const chartContainerRefs = useRef([]);
+    const cloneStatusRefs = useRef([]);
+    const chartRefs = useRef([]); // Add this line
 
     useEffect(() => {
         const fetchData = async () => {
@@ -28,7 +23,7 @@ const DonutChartCard = () => {
     }, []);
 
     useEffect(() => {
-        if (chartData) {
+        if (chartData && chartData.profiles) {
             chartData.profiles.forEach((profile, index) => {
                 const numbers = [];
                 const labels = [];
@@ -43,6 +38,21 @@ const DonutChartCard = () => {
                     labels: labels,
                     chart: {
                         type: 'donut',
+                        animations: {
+                            enabled: false,
+                        },
+                    },
+                    dataLabels: {
+                        enabled: true,
+                    },
+                    plotOptions: {
+                        pie: {
+                            donut: {
+                                labels: {
+                                    show: true,
+                                },
+                            },
+                        },
                     },
                     responsive: [
                         {
@@ -53,26 +63,6 @@ const DonutChartCard = () => {
                                 },
                                 legend: {
                                     position: 'bottom',
-                                },
-                                plotOptions: {
-                                    pie: {
-                                        donut: {
-                                            labels: {
-                                                show: true,
-                                                total: {
-                                                    show: true,
-                                                    label: 'Total',
-                                                    formatter: (value) => {
-                                                        const total = numbers.reduce(
-                                                            (acc, curr) => acc + curr,
-                                                            0
-                                                        );
-                                                        return `${total} users`;
-                                                    },
-                                                },
-                                            },
-                                        },
-                                    },
                                 },
                             },
                         },
@@ -92,8 +82,6 @@ const DonutChartCard = () => {
         }
     }, [chartData]);
 
-    const chartContainerRefs = useRef([]);
-    const cloneStatusRefs = useRef([]);
 
     const handleClone = (index) => {
         if (!cloneStatusRefs.current[index]) {
@@ -101,7 +89,7 @@ const DonutChartCard = () => {
 
             const newChartData = { ...chartData };
             const newProfiles = [...newChartData.profiles];
-            const clonedProfile = { ...newProfiles[index] };
+            const clonedProfile = { ...newProfiles[index], cloneButton: false };
             newProfiles.push(clonedProfile);
             newChartData.profiles = newProfiles;
             setChartData(newChartData);
@@ -109,22 +97,25 @@ const DonutChartCard = () => {
     };
 
     return (
-        <Container>
+        <div className="container">
             {chartData &&
                 chartData.profiles.map((profile, index) => (
-                    <ChartCard key={index}>
-                        <ChartTitle>{profile.title}</ChartTitle>
-                        <ChartContainer ref={(el) => (chartContainerRefs.current[index] = el)} />
-                        <MenuButtonContainer>
+                    <div className="chart-card" key={index}>
+                        <h2 className="chart-title">{profile.title}</h2>
+                        <div
+                            className="chart-container"
+                            ref={(el) => (chartContainerRefs.current[index] = el)}
+                        ></div>
+                        <div className="menu-button-container">
                             {!cloneStatusRefs.current[index] && (
                                 <button onClick={() => handleClone(index)}>
-                                    <MenuIcon>&#8942;</MenuIcon>
+                                    <span className="menu-icon">&#8942;</span>
                                 </button>
                             )}
-                        </MenuButtonContainer>
-                    </ChartCard>
+                        </div>
+                    </div>
                 ))}
-        </Container>
+        </div>
     );
 };
 
